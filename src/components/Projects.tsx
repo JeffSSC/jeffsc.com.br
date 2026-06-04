@@ -123,7 +123,7 @@ export function Projects({ lang }: ProjectsProps) {
         >
           {lang === "pt" ? "Projetos." : "Projects."}
         </h2>
-        <div className="flex gap-1 justify-start md:justify-self-end">
+        <div className="flex-1 md:flex gap-1 justify-start md:justify-self-end">
           {filters.map((f) => (
             <button
               key={f.id}
