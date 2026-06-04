@@ -6,6 +6,99 @@ interface ProjectsProps {
   lang: DataLang;
 }
 
+type Project = ReturnType<typeof getData>["projects"][number];
+
+function Row({ p, i }: { p: Project; i: number }) {
+  const [open, setOpen] = useState(false);
+  const handleMouseEnter = () => {
+    if (window.matchMedia("(hover: hover)").matches) {
+      setOpen(true);
+    }
+  };
+
+  const handleMouseLeave = () => {
+    if (window.matchMedia("(hover: hover)").matches) {
+      setOpen(false);
+    }
+  };
+
+  return (
+    <article
+      className={`border-t border-rule py-7 transition-all ${open ? "py-9" : ""}`}
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
+    >
+      <div className="grid grid-cols-[40px_1fr_auto_40px] md:grid-cols-[50px_1.1fr_1fr_40px] gap-6 items-center">
+        <div className="mono text-muted">{String(i + 1).padStart(2, "0")}</div>
+        <div>
+          <h3
+            className={`serif text-[28px] md:text-[40px] leading-[1.1] m-0 tracking-[-0.02em] transition-colors ${open ? "text-accent" : ""}`}
+          >
+            {p.title}
+          </h3>
+          <div className="mono mt-1 text-muted">
+            {p.tag} · {p.year}
+          </div>
+        </div>
+        <div className="hidden md:flex flex-wrap gap-1.5 justify-self-start">
+          {p.stack.slice(0, 5).map((s: string) => (
+            <span key={s} className="chip-xs">
+              {s}
+            </span>
+          ))}
+          {p.stack.length > 5 && (
+            <span className="chip-xs text-muted">+{p.stack.length - 5}</span>
+          )}
+        </div>
+        <button
+          onClick={(e) => {
+            e.stopPropagation();
+            setOpen(!open);
+          }}
+          aria-label={p.linkLabel}
+          aria-expanded={open}
+          className={`w-10 h-10 grid place-items-center border border-rule justify-self-end transition ${open ? "-rotate-45" : ""} hover:bg-ink hover:text-bg hover:border-ink`}
+        >
+          <svg width="18" height="18" viewBox="0 0 18 18">
+            <path
+              d="M4 14L14 4M6 4h8v8"
+              stroke="currentColor"
+              strokeWidth="1.4"
+              fill="none"
+            />
+          </svg>
+        </button>
+      </div>
+      <div
+        className={`grid transition-all duration-500 ${open ? "grid-rows-[1fr] opacity-100 mt-5" : "grid-rows-[0fr] opacity-0"}`}
+      >
+        <div className="overflow-hidden">
+          <p className="max-w-[720px] text-base m-0 mb-4 pl-[64px] md:pl-[74px] text-ink-2">
+            {p.summary}
+          </p>
+          <div className="flex flex-wrap justify-between gap-5 pl-[64px] md:pl-[74px] items-end">
+            <div className="flex flex-wrap gap-1.5">
+              {p.stack.map((s: string) => (
+                <span key={s} className="chip-xs">
+                  {s}
+                </span>
+              ))}
+            </div>
+            <a
+              className="inline-flex items-center gap-1.5 text-sm border-b border-ink pb-0.5 hover:text-accent hover:border-accent"
+              href={p.link}
+              target="_blank"
+              rel="noopener"
+            >
+              {p.linkLabel} →
+            </a>
+          </div>
+        </div>
+      </div>
+    </article>
+  );
+}
+
 export function Projects({ lang }: ProjectsProps) {
   const data = getData(lang);
   const [filter, setFilter] = useState<string>("all");
@@ -23,85 +116,6 @@ export function Projects({ lang }: ProjectsProps) {
         : data.projects.filter((p) => p.kind === filter),
     [filter, data.projects],
   );
-
-  function Row({ p, i }: { p: (typeof data.projects)[number]; i: number }) {
-    const [open, setOpen] = useState(false);
-    return (
-      <article
-        className={`border-t border-rule py-7 transition-all ${open ? "py-9" : ""}`}
-        onMouseEnter={() => setOpen(true)}
-        onMouseLeave={() => setOpen(false)}
-      >
-        <div className="grid grid-cols-[40px_1fr_auto_40px] md:grid-cols-[50px_1.1fr_1fr_40px] gap-6 items-center">
-          <div className="mono text-muted">
-            {String(i + 1).padStart(2, "0")}
-          </div>
-          <div>
-            <h3
-              className={`serif text-[28px] md:text-[40px] leading-[1.1] m-0 tracking-[-0.02em] transition-colors ${open ? "text-accent" : ""}`}
-            >
-              {p.title}
-            </h3>
-            <div className="mono mt-1 text-muted">
-              {p.tag} · {p.year}
-            </div>
-          </div>
-          <div className="hidden md:flex flex-wrap gap-1.5 justify-self-start">
-            {p.stack.slice(0, 5).map((s: string) => (
-              <span key={s} className="chip-xs">
-                {s}
-              </span>
-            ))}
-            {p.stack.length > 5 && (
-              <span className="chip-xs text-muted">+{p.stack.length - 5}</span>
-            )}
-          </div>
-          <a
-            href={p.link}
-            target="_blank"
-            rel="noopener"
-            aria-label={p.linkLabel}
-            className={`w-10 h-10 grid place-items-center border border-rule justify-self-end transition ${open ? "-rotate-45" : ""} hover:bg-ink hover:text-bg hover:border-ink`}
-          >
-            <svg width="18" height="18" viewBox="0 0 18 18">
-              <path
-                d="M4 14L14 4M6 4h8v8"
-                stroke="currentColor"
-                strokeWidth="1.4"
-                fill="none"
-              />
-            </svg>
-          </a>
-        </div>
-        <div
-          className={`grid transition-all duration-500 ${open ? "grid-rows-[1fr] opacity-100 mt-5" : "grid-rows-[0fr] opacity-0"}`}
-        >
-          <div className="overflow-hidden">
-            <p className="max-w-[720px] text-base m-0 mb-4 pl-[64px] md:pl-[74px] text-ink-2">
-              {p.summary}
-            </p>
-            <div className="flex flex-wrap justify-between gap-5 pl-[64px] md:pl-[74px] items-end">
-              <div className="flex flex-wrap gap-1.5">
-                {p.stack.map((s: string) => (
-                  <span key={s} className="chip-xs">
-                    {s}
-                  </span>
-                ))}
-              </div>
-              <a
-                className="inline-flex items-center gap-1.5 text-sm border-b border-ink pb-0.5 hover:text-accent hover:border-accent"
-                href={p.link}
-                target="_blank"
-                rel="noopener"
-              >
-                {p.linkLabel} →
-              </a>
-            </div>
-          </div>
-        </div>
-      </article>
-    );
-  }
 
   return (
     <section id="work" className="py-24 md:py-14">
