@@ -41,7 +41,7 @@ export function Nav({ lang: initialLang }: NavProps) {
   const switchLang = (newLang: DataLang) => {
     if (newLang === lang) return;
     const currentPath = window.location.pathname;
-    
+
     // If the new language is the default (en), remove the /pt prefix if it exists
     if (newLang === "en") {
       const newPath = currentPath.replace(/^\/pt(\/|$)/, "/");
@@ -57,7 +57,7 @@ export function Nav({ lang: initialLang }: NavProps) {
   const base = lang === "en" ? "" : "/pt";
 
   return (
-    <nav className={`sticky top-0 z-30 grid grid-cols-[1fr_auto_1fr] items-center gap-6 backdrop-blur-xl transition-all ${scrolled ? "border-b border-rule py-3.5 px-10" : "py-5 px-10"} md:px-5`}
+    <nav className={`sticky top-0 z-30 grid md:grid-cols-[1fr_auto_1fr] grid-cols-[1fr_1fr] items-center gap-6 backdrop-blur-xl transition-all ${scrolled ? "border-b border-rule py-3.5 px-10" : "py-5 px-10"} md:px-5`}
       style={{ background: "color-mix(in srgb, var(--bg) 85%, transparent)" }}>
       <div className="absolute left-0 right-0 -bottom-px h-px bg-accent origin-left transition-transform duration-150" style={{ transform: `scaleX(${progress})` }} aria-hidden />
       <a href={`${base}/#top`} className="flex items-center gap-3">
@@ -79,24 +79,24 @@ export function Nav({ lang: initialLang }: NavProps) {
       </div>
       <div className="flex items-center gap-4 justify-self-end">
         <div className="flex gap-1.5 font-mono text-xs" aria-label="Language selection">
-          <button 
-            className={lang === "en" ? "text-ink" : "text-muted"} 
+          <button
+            className={lang === "en" ? "text-ink" : "text-muted"}
             onClick={() => switchLang("en")}
             aria-label="EN - English"
           >
             EN
           </button>
           <span className="text-muted" aria-hidden>/</span>
-          <button 
-            className={lang === "pt" ? "text-ink" : "text-muted"} 
+          <button
+            className={lang === "pt" ? "text-ink" : "text-muted"}
             onClick={() => switchLang("pt")}
             aria-label="PT - Português"
           >
             PT
           </button>
         </div>
-        <button 
-          onClick={toggleTheme} 
+        <button
+          onClick={toggleTheme}
           className="flex items-center gap-2 px-3 py-1.5 border border-rule rounded-full hover:border-ink hover:bg-card transition">
           <span className="w-2.5 h-2.5 rounded-full bg-ink" style={{ boxShadow: "inset 0 0 0 2px var(--bg)" }} />
           <span className="mono">{theme === "dark" ? (lang === "pt" ? "Claro" : "Light") : (lang === "pt" ? "Escuro" : "Dark")}</span>

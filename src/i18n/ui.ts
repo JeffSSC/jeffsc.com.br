@@ -20,8 +20,6 @@ export const ui = {
     // Hero Section
     "hero.currently": "Currently —",
     "hero.cta.contact": "Get in touch",
-    "hero.cta.resume": "Resume",
-    "hero.resume.pdf": "PDF · 2025",
 
     // About Section
     "about.index": "Index · About",
@@ -68,7 +66,6 @@ export const ui = {
     "contact.title.line1": "Let's build",
     "contact.title.line2": "something together.",
     "contact.fastest": "01 · Fastest",
-    "contact.whatsapp": "WhatsApp",
     "contact.anytime": "02 · Anytime",
     "contact.email": "Email",
     "contact.professional": "03 · Professional",
@@ -100,8 +97,6 @@ export const ui = {
     // Hero Section
     "hero.currently": "Atualmente —",
     "hero.cta.contact": "Entre em contato",
-    "hero.cta.resume": "Currículo",
-    "hero.resume.pdf": "PDF · 2025",
 
     // About Section
     "about.index": "Índice · Sobre",
@@ -148,7 +143,6 @@ export const ui = {
     "contact.title.line1": "Vamos construir",
     "contact.title.line2": "algo juntos.",
     "contact.fastest": "01 · Mais rápido",
-    "contact.whatsapp": "WhatsApp",
     "contact.anytime": "02 · Qualquer hora",
     "contact.email": "E-mail",
     "contact.professional": "03 · Profissional",

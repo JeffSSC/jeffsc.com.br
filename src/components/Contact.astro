@@ -9,10 +9,9 @@ const { lang } = Astro.props;
 const data = getData(lang);
 
 const cards = [
-  { num: `01 · ${lang === "pt" ? "Mais rápido" : "Fastest"}`, label: "WhatsApp", sub: "+55 47 99115 8071 →", href: data.contact.whatsapp },
-  { num: `02 · ${lang === "pt" ? "Qualquer hora" : "Anytime"}`, label: lang === "pt" ? "E-mail" : "Email", sub: `${data.contact.email} →`, href: `mailto:${data.contact.email}` },
-  { num: `03 · ${lang === "pt" ? "Profissional" : "Professional"}`, label: "LinkedIn", sub: "/in/jefferson-caires →", href: data.contact.linkedin },
-  { num: `04 · ${lang === "pt" ? "Código" : "Code"}`, label: "GitHub", sub: "/JeffSSC →", href: data.contact.github },
+  { num: `01 · ${lang === "pt" ? "Qualquer hora" : "Anytime"}`, label: lang === "pt" ? "E-mail" : "Email", sub: `${data.contact.email} →`, href: `mailto:${data.contact.email}` },
+  { num: `02 · ${lang === "pt" ? "Profissional" : "Professional"}`, label: "LinkedIn", sub: "/in/jefferson-caires →", href: data.contact.linkedin },
+  { num: `03 · ${lang === "pt" ? "Código" : "Code"}`, label: "GitHub", sub: "/JeffSSC →", href: data.contact.github },
 ];
 ---
 <section id="contact" class="py-24 md:py-14">
@@ -26,7 +25,7 @@ const cards = [
       <em class="quiet">{lang === "pt" ? "algo juntos." : "something together."}</em>
     </h2>
   </header>
-  <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-px bg-rule border border-rule">
+  <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-px bg-rule border border-rule">
     {cards.map((c) => (
       <a href={c.href} target="_blank" rel="noopener"
         class="bg-bg p-7 flex flex-col gap-3 min-h-[180px] transition-colors hover:bg-ink hover:text-bg contact-card">

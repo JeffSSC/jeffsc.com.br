@@ -221,13 +221,9 @@ export const DATA = {
     ],
     contact: {
       email: "jeff.silva.caires@gmail.com",
-      whatsapp:
-        "https://wa.me/5547991158071?text=Hello%20Jefferson!%20How%20are%20you%3F",
       linkedin: "https://www.linkedin.com/in/jefferson-caires/",
       github: "https://github.com/JeffSSC",
-      resume:
-        "https://docs.google.com/document/d/1va40naUIQ2HIlfadBKLjUKFGfLekvbnIuvD0No9AEMY/edit?usp=sharing",
-    },
+    }
   },
   pt: {
     name: "Jefferson Silva Caires",
@@ -451,13 +447,9 @@ export const DATA = {
     ],
     contact: {
       email: "jeff.silva.caires@gmail.com",
-      whatsapp:
-        "https://wa.me/5547991158071?text=Ol%C3%A1%20Jefferson!%20Tudo%20bem%3F",
       linkedin: "https://www.linkedin.com/in/jefferson-caires/",
       github: "https://github.com/JeffSSC",
-      resume:
-        "https://docs.google.com/document/d/1va40naUIQ2HIlfadBKLjUKFGfLekvbnIuvD0No9AEMY/edit?usp=sharing",
-    },
+    }
   },
 } as const;
 

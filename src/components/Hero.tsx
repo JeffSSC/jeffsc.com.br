@@ -97,7 +97,7 @@ export function Hero({ lang }: HeroProps) {
         <div className="flex gap-3 flex-wrap">
           <a
             className="inline-flex items-center gap-2.5 px-5 py-3.5 bg-ink text-bg text-sm hover:bg-accent transition"
-            href={data.contact.whatsapp}
+            href={`mailto:${data.contact.email}`}
             target="_blank"
             rel="noopener"
           >
@@ -112,17 +112,8 @@ export function Hero({ lang }: HeroProps) {
               />
             </svg>
           </a>
-          <a
-            className="inline-flex items-center gap-3 px-5 py-3.5 border border-rule text-sm hover:border-ink hover:bg-card transition"
-            href={data.contact.resume}
-            target="_blank"
-            rel="noopener"
-          >
-            <span>{lang === "pt" ? "Currículo" : "Resume"}</span>
-            <span className="mono">PDF · 2025</span>
-          </a>
         </div>
       </div>
-    </div>
+    </div >
   );
 }
