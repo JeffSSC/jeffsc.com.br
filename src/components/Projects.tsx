@@ -22,6 +22,8 @@ function Row({ p, i }: { p: Project; i: number }) {
     }
   };
 
+  const contentId = `project-content-${p.id}`;
+
   return (
     <article
       className={`border-t border-rule py-7 transition-all ${open ? "py-9" : ""}`}
@@ -29,9 +31,12 @@ function Row({ p, i }: { p: Project; i: number }) {
       onMouseLeave={handleMouseLeave}
     >
       <div className="grid grid-cols-[40px_1fr_auto_40px] md:grid-cols-[50px_1.1fr_1fr_40px] gap-6 items-center">
-        <div className="mono text-muted">{String(i + 1).padStart(2, "0")}</div>
+        <div className="mono text-muted" aria-hidden="true">
+          {String(i + 1).padStart(2, "0")}
+        </div>
         <div>
           <h3
+            id={`project-title-${p.id}`}
             className={`serif text-[28px] md:text-[40px] leading-[1.1] m-0 tracking-[-0.02em] transition-colors ${open ? "text-accent" : ""}`}
           >
             {p.title}
@@ -40,14 +45,19 @@ function Row({ p, i }: { p: Project; i: number }) {
             {p.tag} · {p.year}
           </div>
         </div>
-        <div className="hidden md:flex flex-wrap gap-1.5 justify-self-start">
+        <div
+          className="hidden md:flex flex-wrap gap-1.5 justify-self-start"
+          aria-label="Technologies used"
+        >
           {p.stack.slice(0, 5).map((s: string) => (
             <span key={s} className="chip-xs">
               {s}
             </span>
           ))}
           {p.stack.length > 5 && (
-            <span className="chip-xs text-muted">+{p.stack.length - 5}</span>
+            <span className="chip-xs text-muted" aria-label={`${p.stack.length - 5} more technologies`}>
+              +{p.stack.length - 5}
+            </span>
           )}
         </div>
         <button
@@ -55,11 +65,12 @@ function Row({ p, i }: { p: Project; i: number }) {
             e.stopPropagation();
             setOpen(!open);
           }}
-          aria-label={p.linkLabel}
+          aria-label={open ? `Collapse ${p.title} details` : `Expand ${p.title} details`}
           aria-expanded={open}
-          className={`w-10 h-10 grid place-items-center border border-rule justify-self-end transition ${open ? "-rotate-45" : ""} hover:bg-ink hover:text-bg hover:border-ink`}
+          aria-controls={contentId}
+          className={`w-10 h-10 grid place-items-center border border-rule justify-self-end transition ${open ? "-rotate-45" : ""} hover:bg-ink hover:text-bg hover:border-ink focus-visible:ring-2 focus-visible:ring-accent outline-none`}
         >
-          <svg width="18" height="18" viewBox="0 0 18 18">
+          <svg width="18" height="18" viewBox="0 0 18 18" aria-hidden="true">
             <path
               d="M4 14L14 4M6 4h8v8"
               stroke="currentColor"
@@ -70,6 +81,9 @@ function Row({ p, i }: { p: Project; i: number }) {
         </button>
       </div>
       <div
+        id={contentId}
+        role="region"
+        aria-labelledby={`project-title-${p.id}`}
         className={`grid transition-all duration-500 ${open ? "grid-rows-[1fr] opacity-100 mt-5" : "grid-rows-[0fr] opacity-0"}`}
       >
         <div className="overflow-hidden">
@@ -77,7 +91,7 @@ function Row({ p, i }: { p: Project; i: number }) {
             {p.summary}
           </p>
           <div className="flex flex-wrap justify-between gap-5 pl-[64px] md:pl-[74px] items-end">
-            <div className="flex flex-wrap gap-1.5">
+            <div className="flex flex-wrap gap-1.5" aria-label="Full stack">
               {p.stack.map((s: string) => (
                 <span key={s} className="chip-xs">
                   {s}
@@ -85,12 +99,12 @@ function Row({ p, i }: { p: Project; i: number }) {
               ))}
             </div>
             <a
-              className="inline-flex items-center gap-1.5 text-sm border-b border-ink pb-0.5 hover:text-accent hover:border-accent"
+              className="inline-flex items-center gap-1.5 text-sm border-b border-ink pb-0.5 hover:text-accent hover:border-accent focus-visible:text-accent focus-visible:border-accent outline-none"
               href={p.link}
               target="_blank"
               rel="noopener"
             >
-              {p.linkLabel} →
+              {p.linkLabel} <span aria-hidden="true">→</span>
             </a>
           </div>
         </div>
