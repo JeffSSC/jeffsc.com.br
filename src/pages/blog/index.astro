@@ -25,6 +25,7 @@ const posts = (await getCollection('posts')).sort(
                     year: 'numeric',
                     month: 'short',
                     day: 'numeric',
+                    timeZone: 'UTC',
                   })}
                 </time>
                 <h2 class="text-2xl font-serif group-hover:text-accent transition-colors leading-tight">{post.data.title}</h2>
