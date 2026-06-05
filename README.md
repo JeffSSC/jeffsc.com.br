@@ -1,59 +1,114 @@
-# Portfolio — Astro + Tailwind
+<div align="center">
+  <a href="https://github.com/jeffsc/jeffsc.com.br">
+    <img src="public/favicon.svg" alt="Logo" width="80" height="80">
+  </a>
 
-Refactor of the portfolio as an **Astro 5** project with **Tailwind CSS** and a small set of **React islands** (hydrated only where interactivity is needed).
+  <h3 align="center">Jeffsc Portfolio</h3>
 
-## Structure
+  <p align="center">
+    A high-performance personal portfolio showcasing a modern web stack.
+    <br />
+    <a href="https://github.com/jeffsc/jeffsc.com.br"><strong>Explore the docs »</strong></a>
+    <br />
+    <br />
+    <a href="www.jeffsc.com.br">View Site</a>
+    ·
+    <a href="https://github.com/jeffsc/jeffsc.com.br/issues">Report Bug</a>
+  </p>
+</div>
 
-```
-astro/
-├── astro.config.mjs          # React + Tailwind integrations, static output
-├── tailwind.config.mjs       # Design tokens via CSS vars (accent, ink, etc.)
-├── src/
-│   ├── data/portfolio.ts     # Single source of truth for all content
-│   ├── styles/global.css     # Tokens, base, component layer helpers
-│   ├── layouts/Base.astro    # HTML shell, fonts, theme bootstrap
-│   ├── components/
-│   │   ├── Nav.tsx           # client:load — scroll progress, theme toggle
-│   │   ├── Hero.tsx          # client:load — cursor spotlight, live clock
-│   │   ├── About.astro       # static
-│   │   ├── Projects.tsx      # client:visible — filter + expand rows
-│   │   ├── Experience.astro  # static
-│   │   ├── Stack.astro       # static (CSS marquee)
-│   │   ├── Testimonials.tsx  # client:visible — carousel
-│   │   ├── Contact.astro     # static
-│   │   └── Footer.astro      # static
-│   └── pages/index.astro     # composition
-```
+<div align="center">
 
-## Why this is faster than the previous SPA
+[![Astro](https://img.shields.io/badge/Astro-BC52EE?style=for-the-badge&logo=astro&logoColor=white)](https://astro.build/)
+[![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white)](https://tailwindcss.com/)
+[![Preact](https://img.shields.io/badge/Preact-673AB8?style=for-the-badge&logo=preact&logoColor=white)](https://preactjs.com/)
+[![MIT License](https://img.shields.io/badge/License-MIT-yellow.svg?style=for-the-badge)](https://opensource.org/licenses/MIT)
 
-- **Static HTML by default** — sections that don't need JS (about, experience, stack, contact, footer) render zero client code.
-- **Partial hydration** — only `Nav` and `Hero` hydrate on load. `Projects` and `Testimonials` hydrate when they scroll into view (`client:visible`).
-- **No Babel in the browser** — real TSX build at compile time, not `<script type="text/babel">`.
-- **Tailwind purge** — CSS ships only what's used.
-- **No CDN React** — bundled + tree-shaken, fonts preconnected with `display=swap`.
+</div>
 
-## Run locally
+<details>
+  <summary>Table of Contents</summary>
+  <ol>
+    <li>
+      <a href="#about-the-project">About The Project</a>
+      <ul>
+        <li><a href="#built-with">Built With</a></li>
+      </ul>
+    </li>
+    <li>
+      <a href="#getting-started">Getting Started</a>
+      <ul>
+        <li><a href="#prerequisites">Prerequisites</a></li>
+        <li><a href="#installation">Installation</a></li>
+      </ul>
+    </li>
+    <li><a href="#usage">Usage</a></li>
+    <li><a href="#roadmap">Roadmap</a></li>
+    <li><a href="#contributing">Contributing</a></li>
+    <li><a href="#license">License</a></li>
+    <li><a href="#contact">Contact</a></li>
+    <li><a href="#acknowledgments">Acknowledgments</a></li>
+  </ol>
+</details>
 
+## About The Project
+
+This project is a complete overhaul of my personal portfolio, redesigned from a traditional SPA to a modern, high-performance static site using Astro. It leverages partial hydration to ensure that only interactive components ship JavaScript to the browser, resulting in lightning-fast load times.
+
+### Built With
+
+* [![Astro][Astro-badge]][Astro-url]
+* [![Preact][Preact-badge]][Preact-url]
+* [![Tailwind][Tailwind-badge]][Tailwind-url]
+
+## Getting Started
+
+To get a local copy up and running, follow these simple steps.
+
+### Prerequisites
+
+* pnpm
+  ```sh
+  npm install -g pnpm
+  ```
+
+### Installation
+
+1. Clone the repo
+   ```sh
+   git clone https://github.com/jeffsc/jeffsc.com.br.git
+   ```
+2. Install PNPM packages
+   ```sh
+   pnpm install
+   ```
+3. Start the development server
+   ```sh
+   pnpm dev
+   ```
+
+## Usage
+
+The portfolio is structured around a single source of truth for content.
+* **Content:** All text and data are managed in `src/data/portfolio.ts`.
+* **Theming:** Colors and tokens are defined in `src/styles/global.css` and consumed by Tailwind.
+
+To build the static output:
 ```bash
-cd astro
-pnpm install      # or npm / yarn
-pnpm dev          # localhost:4321
-pnpm build        # static output in ./dist
-pnpm preview
+pnpm build
 ```
 
-## Deploy
+## License
 
-Any static host: Cloudflare Pages, Vercel, Netlify, AWS S3 + CloudFront.
-Build command: `pnpm build` — output dir: `dist/`.
+Distributed under the MIT License. See `LICENSE` for more information.
 
-## Tokens
+## Acknowledgments
 
-All colors are CSS custom properties in `global.css`. `html[data-theme="dark"]` flips the palette. Tailwind consumes them via `tailwind.config.mjs` so utilities like `bg-bg`, `text-ink`, `border-rule` stay in sync.
+* [Astro Documentation](https://docs.astro.build)
 
-## Notes
-
-- The live preview in this workspace (`index.html` + `app.jsx` at the project root) is the single-file version, kept for visual reference. The `astro/` folder is the production build.
-- React components use `"use client"` implicitly via Astro's `client:*` directives — no extra pragmas needed.
-- Animations respect `prefers-reduced-motion`.
+[Astro-badge]: https://img.shields.io/badge/Astro-BC52EE?style=for-the-badge&logo=astro&logoColor=white
+[Astro-url]: https://astro.build/
+[Preact-badge]: https://img.shields.io/badge/Preact-673AB8?style=for-the-badge&logo=preact&logoColor=white
+[Preact-url]: https://preactjs.com/
+[Tailwind-badge]: https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white
+[Tailwind-url]: https://tailwindcss.com/
