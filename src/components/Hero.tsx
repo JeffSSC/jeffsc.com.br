@@ -112,6 +112,20 @@ export function Hero({ lang }: HeroProps) {
               />
             </svg>
           </a>
+          <a
+            className="inline-flex items-center gap-2.5 px-5 py-3.5 border border-rule text-ink text-sm hover:border-ink hover:bg-card transition"
+            href={lang === "pt" ? "/blog" : "/blog"}
+          >
+            <span>{lang === "pt" ? "Ver o blog" : "Read the blog"}</span>
+            <svg width="14" height="14" viewBox="0 0 14 14">
+              <path
+                d="M4 10l6-6M6 4h4v4"
+                stroke="currentColor"
+                strokeWidth="1.4"
+                fill="none"
+              />
+            </svg>
+          </a>
         </div>
       </div>
     </div >

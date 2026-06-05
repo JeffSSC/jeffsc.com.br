@@ -15,11 +15,15 @@ type Props = CollectionEntry<'posts'>;
 
 const post = Astro.props;
 const { Content } = await render(post);
+
+const base = post.id.startsWith('pt/') ? "/pt" : "";
+const backLabel = post.id.startsWith('pt/') ? "← Voltar ao blog" : "← Back to blog";
 ---
 
 <Base title={`${post.data.title} — Jefferson Silva Caires`} description={post.data.description}>
-  <Nav client:load lang="en" isBlog={true} />
+  <Nav client:load lang={post.id.startsWith('pt/') ? "pt" : "en"} isBlog={true} />
   <main class="max-w-3xl mx-auto px-10 py-20">
+    <a href={`${base}/blog`} class="mono mb-8 inline-block hover:text-accent transition-colors">{backLabel}</a>
     <article>
       <header class="mb-10">
         <time datetime={post.data.pubDate.toISOString()} class="text-sm text-ink-2 opacity-80 font-mono block mb-4">

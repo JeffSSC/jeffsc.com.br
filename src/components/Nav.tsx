@@ -11,7 +11,7 @@ export function Nav({ lang: initialLang, isBlog = false }: NavProps) {
   const [scrolled, setScrolled] = useState(false);
   const [progress, setProgress] = useState(0);
   const [theme, setTheme] = useState<Theme>("dark");
-  const [lang, setLang] = useState<DataLang>(initialLang);
+  const [lang] = useState<DataLang>(initialLang);
 
   useEffect(() => {
     const saved = (localStorage.getItem("theme") as Theme) || "dark";
@@ -55,34 +55,33 @@ export function Nav({ lang: initialLang, isBlog = false }: NavProps) {
   const base = lang === "en" ? "" : "/pt";
 
   return (
-    <nav className={`sticky top-0 z-30 grid grid-cols-[1fr_auto_1fr] items-center gap-6 backdrop-blur-xl transition-all ${scrolled ? "border-b border-rule py-3.5 px-10" : "py-5 px-10"} md:px-5`}
+    <nav className={`sticky top-0 z-30 flex items-center justify-between gap-8 backdrop-blur-xl transition-all ${
+      scrolled ? "border-b border-rule py-3 px-6 sm:px-10 lg:px-16" : "py-5 px-6 sm:px-10 lg:px-16"
+    }`}
       style={{ background: "color-mix(in srgb, var(--bg) 85%, transparent)" }}>
       <div className="absolute left-0 right-0 -bottom-px h-px bg-accent origin-left transition-transform duration-150" style={{ transform: `scaleX(${progress})` }} aria-hidden />
       
       {/* Left Side */}
       <div className="flex items-center gap-6">
-        <a href={`${base}/`} className="flex items-center gap-3">
+        <a href={`${base}/`} className="flex items-center gap-3 shrink-0">
           <span className="serif grid place-items-center w-[34px] h-[34px] border border-ink text-xl leading-none">JSC</span>
           {!isBlog && <span className="serif text-lg hidden sm:inline">Jefferson Silva Caires</span>}
         </a>
       </div>
 
-      {/* Middle - Empty */}
-      <div className="hidden md:block"></div>
-
       {/* Right Side */}
-      <div className="flex items-center gap-4 justify-self-end">
+      <div className="flex items-center gap-4 sm:gap-6 justify-end">
         {!isBlog && (
-          <div className="flex gap-1.5 font-mono text-xs mr-2" aria-label="Language selection">
+          <div className="flex gap-2 font-mono text-xs mr-2" aria-label="Language selection">
             <button
-              className={lang === "en" ? "text-ink" : "text-muted"}
+              className={lang === "en" ? "text-ink" : "text-muted hover:text-ink transition-colors"}
               onClick={() => switchLang("en")}
             >
               EN
             </button>
             <span className="text-muted" aria-hidden>/</span>
             <button
-              className={lang === "pt" ? "text-ink" : "text-muted"}
+              className={lang === "pt" ? "text-ink" : "text-muted hover:text-ink transition-colors"}
               onClick={() => switchLang("pt")}
             >
               PT
@@ -92,7 +91,7 @@ export function Nav({ lang: initialLang, isBlog = false }: NavProps) {
 
         <button
           onClick={toggleTheme}
-          className="p-2 border border-rule rounded-full hover:border-ink hover:bg-card transition"
+          className="p-2 border border-rule rounded-full hover:border-ink hover:bg-card transition shrink-0"
           aria-label="Toggle theme"
         >
           {theme === "dark" ? (
@@ -104,7 +103,7 @@ export function Nav({ lang: initialLang, isBlog = false }: NavProps) {
 
         <a 
           href={isBlog ? (base || "/") : "/blog"} 
-          className="mono text-xs border border-rule px-4 py-2 rounded-full hover:border-ink hover:bg-card transition"
+          className="mono text-xs border border-rule px-4 py-2 rounded-full hover:border-ink hover:bg-card transition whitespace-nowrap"
         >
           {isBlog 
             ? (lang === "pt" ? "Portfólio" : "Portfolio") 
