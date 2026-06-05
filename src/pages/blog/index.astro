@@ -4,8 +4,7 @@ import Footer from "../../components/Footer.astro";
 import { Nav } from "../../components/Nav";
 import { getCollection } from 'astro:content';
 
-const rawPosts = await getCollection('posts');
-const posts = rawPosts.sort(
+const posts = (await getCollection('posts')).sort(
 	(a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
 );
 ---
@@ -13,15 +12,9 @@ const posts = rawPosts.sort(
 <Base title="Blog — Jefferson Silva Caires">
   <Nav client:load lang="en" isBlog={true} />
   <main class="max-w-3xl mx-auto px-10 py-20">
-    <p class="text-xs text-muted mb-4 uppercase tracking-widest border border-rule p-2 inline-block">
-      Debug: Collection 'posts' contains {posts.length} entries
-    </p>
     <h1 class="text-4xl font-serif mb-10 text-center">Blog</h1>
     <div class="rule mb-10" />
     <ul class="flex flex-col gap-12">
-      {posts.length === 0 && (
-        <p class="text-center text-muted py-20">No posts found yet. Check back soon!</p>
-      )}
       {
         posts.map((post) => (
           <li>
