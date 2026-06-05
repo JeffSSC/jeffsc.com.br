@@ -1,7 +1,8 @@
 ---
+const { isBlog = false } = Astro.props;
 ---
-<footer class="pt-20 border-t border-rule mt-20">
-  <div class="serif tracking-[-0.04em] leading-none mb-7" style="font-size: clamp(60px, 14vw, 200px);">Jefferson Silva <em class="italic text-accent">Caires.</em></div>
+<footer class={`pt-20 ${isBlog ? "" : "border-t border-rule mt-20"}`}>
+  {!isBlog && <div class="serif tracking-[-0.04em] leading-none mb-7" style="font-size: clamp(60px, 14vw, 200px);">Jefferson Silva <em class="italic text-accent">Caires.</em></div>}
   <div class="flex flex-wrap justify-between gap-4 pt-5 border-t border-rule">
     <span class="mono">© 2026 · Built with Astro, Typescript & care</span>
     <span class="mono">Designed with Claude Design</span>

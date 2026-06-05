@@ -1,0 +1,64 @@
+---
+import { type CollectionEntry, getCollection, render } from 'astro:content';
+import Base from "../../layouts/Base.astro";
+import Footer from "../../components/Footer.astro";
+import { Nav } from "../../components/Nav";
+
+export async function getStaticPaths() {
+	const posts = await getCollection('posts');
+	return posts.map((post) => ({
+		params: { slug: post.id },
+		props: post,
+	}));
+}
+type Props = CollectionEntry<'posts'>;
+
+const post = Astro.props;
+const { Content } = await render(post);
+---
+
+<Base title={`${post.data.title} — Jefferson Silva Caires`} description={post.data.description}>
+  <Nav client:load lang="en" isBlog={true} />
+  <main class="max-w-3xl mx-auto px-10 py-20">
+    <article>
+      <header class="mb-10">
+        <time datetime={post.data.pubDate.toISOString()} class="text-sm text-ink-2 opacity-80 font-mono block mb-4">
+          {post.data.pubDate.toLocaleDateString('en-us', {
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric',
+          })}
+        </time>
+        <h1 class="text-4xl sm:text-5xl font-serif mb-6 leading-tight">{post.data.title}</h1>
+        {post.data.heroImage && <img src={post.data.heroImage} alt="" class="w-full rounded-lg mb-10" />}
+      </header>
+      <div class="prose prose-ink max-w-none">
+        <Content />
+      </div>
+    </article>
+    <Footer isBlog={true} />
+  </main>
+</Base>
+
+<style is:global>
+  .prose h1 { @apply text-3xl font-serif mb-4 mt-8 text-ink; }
+  .prose h2 { @apply text-2xl font-serif mb-4 mt-8 text-ink; }
+  .prose h3 { @apply text-xl font-serif mb-4 mt-6 text-ink; }
+  .prose p { @apply text-ink leading-relaxed mb-4; }
+  .prose ul { @apply list-disc list-inside mb-4 text-ink-2; }
+  .prose ol { @apply list-decimal list-inside mb-4 text-ink-2; }
+  .prose li { @apply mb-2; }
+  .prose a { @apply text-accent underline decoration-accent-soft hover:decoration-accent transition-colors; }
+  .prose code { @apply font-mono bg-card px-1.5 py-0.5 rounded text-sm text-ink; }
+  .prose pre { @apply bg-ink text-bg p-4 rounded-lg overflow-x-auto mb-6 font-mono text-sm; }
+
+  html[data-theme="dark"] .prose p,
+  html[data-theme="dark"] .prose ul,
+  html[data-theme="dark"] .prose ol {
+    @apply text-ink-2;
+  }
+  
+  html[data-theme="dark"] .prose code {
+    @apply bg-zinc-800 text-ink;
+  }
+</style>

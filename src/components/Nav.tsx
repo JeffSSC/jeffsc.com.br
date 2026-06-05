@@ -4,9 +4,10 @@ import type { DataLang } from "../i18n/data";
 
 interface NavProps {
   lang: DataLang;
+  isBlog?: boolean;
 }
 
-export function Nav({ lang: initialLang }: NavProps) {
+export function Nav({ lang: initialLang, isBlog = false }: NavProps) {
   const [scrolled, setScrolled] = useState(false);
   const [progress, setProgress] = useState(0);
   const [theme, setTheme] = useState<Theme>("dark");
@@ -42,13 +43,10 @@ export function Nav({ lang: initialLang }: NavProps) {
     if (newLang === lang) return;
     const currentPath = window.location.pathname;
 
-    // If the new language is the default (en), remove the /pt prefix if it exists
     if (newLang === "en") {
       const newPath = currentPath.replace(/^\/pt(\/|$)/, "/");
       window.location.href = newPath || "/";
     } else {
-      // If the new language is pt, add the /pt prefix
-      // Avoid doubling slashes if currentPath is already "/"
       const newPath = `/pt${currentPath === "/" ? "" : currentPath}`;
       window.location.href = newPath;
     }
@@ -57,50 +55,62 @@ export function Nav({ lang: initialLang }: NavProps) {
   const base = lang === "en" ? "" : "/pt";
 
   return (
-    <nav className={`sticky top-0 z-30 grid md:grid-cols-[1fr_auto_1fr] grid-cols-[1fr_1fr] items-center gap-6 backdrop-blur-xl transition-all ${scrolled ? "border-b border-rule py-3.5 px-10" : "py-5 px-10"} md:px-5`}
+    <nav className={`sticky top-0 z-30 grid grid-cols-[1fr_auto_1fr] items-center gap-6 backdrop-blur-xl transition-all ${scrolled ? "border-b border-rule py-3.5 px-10" : "py-5 px-10"} md:px-5`}
       style={{ background: "color-mix(in srgb, var(--bg) 85%, transparent)" }}>
       <div className="absolute left-0 right-0 -bottom-px h-px bg-accent origin-left transition-transform duration-150" style={{ transform: `scaleX(${progress})` }} aria-hidden />
-      <a href={`${base}/#top`} className="flex items-center gap-3">
-        <span className="serif grid place-items-center w-[34px] h-[34px] border border-ink text-xl leading-none">JSC</span>
-        <span className="serif text-lg hidden sm:inline">Jefferson Silva Caires</span>
-      </a>
-      <div className="hidden md:flex gap-7">
-        {(lang === "pt" ? [
-          ["01", "Trabalhos", "#work"], ["02", "Experiência", "#experience"], ["03", "Stack", "#stack"],
-          ["04", "Depoimentos", "#words"], ["05", "Contato", "#contact"],
-        ] : [
-          ["01", "Work", "#work"], ["02", "Experience", "#experience"], ["03", "Stack", "#stack"],
-          ["04", "Words", "#words"], ["05", "Contact", "#contact"],
-        ]).map(([n, label, href]) => (
-          <a key={href} href={`${base}${href}`} className="relative text-sm flex items-baseline gap-1.5">
-            <span className="font-mono text-[10px] text-muted">{n}</span> {label}
-          </a>
-        ))}
+      
+      {/* Left Side */}
+      <div className="flex items-center gap-6">
+        <a href={`${base}/`} className="flex items-center gap-3">
+          <span className="serif grid place-items-center w-[34px] h-[34px] border border-ink text-xl leading-none">JSC</span>
+          {!isBlog && <span className="serif text-lg hidden sm:inline">Jefferson Silva Caires</span>}
+        </a>
       </div>
+
+      {/* Middle - Empty */}
+      <div className="hidden md:block"></div>
+
+      {/* Right Side */}
       <div className="flex items-center gap-4 justify-self-end">
-        <div className="flex gap-1.5 font-mono text-xs" aria-label="Language selection">
-          <button
-            className={lang === "en" ? "text-ink" : "text-muted"}
-            onClick={() => switchLang("en")}
-            aria-label="EN - English"
-          >
-            EN
-          </button>
-          <span className="text-muted" aria-hidden>/</span>
-          <button
-            className={lang === "pt" ? "text-ink" : "text-muted"}
-            onClick={() => switchLang("pt")}
-            aria-label="PT - Português"
-          >
-            PT
-          </button>
-        </div>
+        {!isBlog && (
+          <div className="flex gap-1.5 font-mono text-xs mr-2" aria-label="Language selection">
+            <button
+              className={lang === "en" ? "text-ink" : "text-muted"}
+              onClick={() => switchLang("en")}
+            >
+              EN
+            </button>
+            <span className="text-muted" aria-hidden>/</span>
+            <button
+              className={lang === "pt" ? "text-ink" : "text-muted"}
+              onClick={() => switchLang("pt")}
+            >
+              PT
+            </button>
+          </div>
+        )}
+
         <button
           onClick={toggleTheme}
-          className="flex items-center gap-2 px-3 py-1.5 border border-rule rounded-full hover:border-ink hover:bg-card transition">
-          <span className="w-2.5 h-2.5 rounded-full bg-ink" style={{ boxShadow: "inset 0 0 0 2px var(--bg)" }} />
-          <span className="mono">{theme === "dark" ? (lang === "pt" ? "Claro" : "Light") : (lang === "pt" ? "Escuro" : "Dark")}</span>
+          className="p-2 border border-rule rounded-full hover:border-ink hover:bg-card transition"
+          aria-label="Toggle theme"
+        >
+          {theme === "dark" ? (
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
+          ) : (
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+          )}
         </button>
+
+        <a 
+          href={isBlog ? (base || "/") : "/blog"} 
+          className="mono text-xs border border-rule px-4 py-2 rounded-full hover:border-ink hover:bg-card transition"
+        >
+          {isBlog 
+            ? (lang === "pt" ? "Portfólio" : "Portfolio") 
+            : "Blog"
+          }
+        </a>
       </div>
     </nav>
   );
