@@ -1,3 +1,5 @@
+import tokens from "./src/data/tokens.json";
+
 /** @type {import('tailwindcss').Config} */
 export default {
   content: ["./src/**/*.{astro,html,js,jsx,ts,tsx,md,mdx}"],
@@ -15,11 +17,13 @@ export default {
         "accent-soft": "var(--accent-soft)",
       },
       fontFamily: {
-        serif: ['"Instrument Serif"', "ui-serif", "Georgia", "serif"],
-        sans: ['"Inter"', "ui-sans-serif", "system-ui", "sans-serif"],
-        mono: ['"JetBrains Mono"', "ui-monospace", "SF Mono", "Menlo", "monospace"],
+        serif: tokens.fonts.serif,
+        sans: tokens.fonts.sans,
+        mono: tokens.fonts.mono,
       },
-      maxWidth: { content: "1320px" },
+      maxWidth: {
+        content: tokens.layout.maxWidth.content,
+      },
     },
   },
   plugins: [],
